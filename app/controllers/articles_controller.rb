@@ -20,8 +20,9 @@ class ArticlesController < ApplicationController
   end
 end
 end
-  def show
-  end
+def show
+  @article = Article.find(params[:id])
+ end
   def update
     if @article.update(article_params)
      flash[:notice] = "Article was updated"
@@ -33,7 +34,18 @@ end
   end
   def edit
   end
+  def search
+    params[:title_search]
 
+    respond_to do |format|
+      format.turbo_stream do format
+        format.turbo_stream do 
+          render turbo_stream: turbo_stream.update('search-results', params[:title_search])
+         end
+      end
+     end  
+  end
+ 
   def destroy
     @article.destroy
     flash[:notice] = "Article was deleted"

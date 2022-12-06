@@ -1,10 +1,17 @@
 Rails.application.routes.draw do
-  resources :articles
- root 'users#signup'
+  resources :articles do
+   collection do
+      post 'search'
+      end
+      end
+   root 'articles#index'
     get 'about', to: 'pages#about'
     get 'signup', to: 'users#new'
-    resources :users, except: [:new]
     get 'login', to: 'sessions#new'
     post 'login', to: 'sessions#create'
-    delete 'logout', to: 'sessions#destroy'
+    post 'search', to: 'articles#search'
+
+    get 'logout', to: 'sessions#destroy'
+ resources :users, except: [:new]
+    
  end
